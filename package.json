@@ -1,0 +1,9 @@
+{
+  "description": "interfax_api_docker_launcher",
+  "scripts": {
+    "production": "cross-env NODE_ENV=production docker-compose up -d",
+    "test": "cross-env NODE_ENV=test docker-compose up -d",
+    "stop": "docker-compose down"
+  },
+  "author": "ves.pavel94@gmail.com"
+}

@@ -1,0 +1,30 @@
+version: "2"
+services:
+  api:
+    build: "."
+    restart: always
+    container_name: interfax-api
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - ./interfax_api:/home/node/app
+    command: "npm run ${NODE_ENV}"
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:4.4.2
+    container_name: interfax-mongodb
+    environment: 
+      - MONGO_INITDB_DATABASE=interfax
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./init-mongo.${NODE_ENV}.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    command: [--auth]
+    ports: 
+      - 37017:27017
